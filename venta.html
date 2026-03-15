@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<title>🏍TITAN MOTORS</title>
+<link rel="icon" type="image/png" href="icono.png">
+
+
+<style>
+
+.menu{
+position: fixed;
+top: 0;
+right: -250px;
+width: 250px;
+height: 100%;
+background: #222;
+padding-top: 60px;
+transition: 0.4s;
+}
+
+.menu a{
+display: block;
+color: white;
+padding: 15px;
+text-decoration: none;
+}
+
+.menu a:hover{
+background: #444;
+}
+
+    .boton-flotante{
+position: fixed;
+bottom: 20px;
+right: 20px;
+background-color: #ff6600;
+color: white;
+padding: 15px 20px;
+border-radius: 50px;
+text-decoration: none;
+font-size: 16px;
+box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+}
+
+.boton-flotante:hover{
+background-color: #e65c00;
+}
+
+h1{
+font-family:'Montserrat', sans-serif;
+letter-spacing:2px;
+}
+
+    #visorImagen{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.8);
+display:none;
+align-items:center;
+justify-content:center;
+}
+
+#visorImagen img{
+max-width:80%;
+max-height:80%;
+border-radius:10px;
+box-shadow:0 0 20px black;
+}
+
+
+body{
+font-family: Arial;
+margin:0;
+background:#eaeded;
+}
+
+header{
+background:#131921;
+color:white;
+padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+header h1{
+margin:0;
+}
+
+.cart-btn{
+background:hsl(51, 89%, 46%);
+border:none;
+padding:12px 25px;   /* aumenta el tamaño */
+font-size:17px;      /* texto más grande */
+cursor:pointer;
+border-radius:30px;  /* bordes redondeados */
+}
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+padding:20px;
+}
+
+.product{
+background:white;
+padding:15px;
+border-radius:8px;
+text-align:center;
+box-shadow:0 2px 5px rgba(0,0,0,0.2);
+}
+
+.product img{
+width:150px;
+height:150px;
+object-fit:cover;
+}
+
+
+button{
+background:#dbc60a;
+border:none;
+border-radius: 20px; /* Redondea las 4 esquinas */
+padding:10px;
+margin-top:10px;
+cursor:pointer;
+}
+
+#carrito{
+position:fixed;
+right:0;
+top:0;
+width:320px;
+height:100%;
+background:white;
+box-shadow:-3px 0 10px rgba(0,0,0,0.3);
+padding:20px;
+overflow:auto;
+display:none;
+}
+
+.cart-item{
+display:flex;
+justify-content:space-between;
+margin:10px 0;
+}
+
+.total{
+font-size:18px;
+font-weight:bold;
+}
+
+</style>
+</head>
+<div id="visorImagen" onclick="cerrarImagen()">
+<img id="imagenGrande">
+</div>
+
+<body>
+    
+    
+
+<header>
+
+<h1> 🔥TITAN MOTORS</h1>
+    
+<form action="/buscar" method="get">
+
+<input 
+type="search" 
+name="q" 
+placeholder="🔎 Buscar productos..."
+aria-label="Buscar en el sitio">
+
+</form>
+
+<style>
+.submenu{
+display:none;
+background:#111;
+}
+
+.submenu a{
+padding-left:30px;
+font-size:14px;
+}
+    .carrito-flotante{
+position: fixed;
+bottom: 20px;
+right: 20px;
+background: #ff6600;
+color: white;
+font-size: 28px;
+padding: 15px 18px;
+border-radius: 50%;
+text-decoration: none;
+box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+z-index: 1000;
+}
+
+.carrito-flotante:hover{
+background: #e65c00;
+}
+
+input[type="search"]{
+width:400px;
+padding:12px 20px;
+border-radius:30px;
+border:1px solid #ccc;
+font-size:16px;
+}
+
+</style>
+<button class="btn-menu" onclick="abrirMenu()">☰</button>
+
+<div id="menuLateral" class="menu">
+
+<a href="#" onclick="toggleMenu('inicioMenu')">Inicio</a>
+<div id="inicioMenu" class="submenu">
+<a href="#">🏠 Página principal</a>
+<a href="#">⭐ Ofertas</a>
+</div>
+
+<a href="#" onclick="toggleMenu('productosMenu')">🔧 Repuestos</a>
+<div id="productosMenu" class="submenu">
+<a href="#">🛢️ Aceite</a>
+<a href="#">🏍 Motos</a>
+<a href="#">🔧 Repuestos</a>
+</div>
+
+<a href="#" onclick="toggleMenu('carritoMenu')">Carrito</a>
+<div id="carritoMenu" class="submenu">
+<a href="#" onclick="toggleCart()">🛒 Ver carrito</a>
+<a href="#">💳 Pagar</a>
+</div>
+
+<a href="#" onclick="toggleMenu('contactoMenu')">Contacto</a>
+<div id="contactoMenu" class="submenu">
+<a href="https://wa.me/59172982725">📱 WhatsApp</a>
+<a href="https://facebook.com/TuPagina">📘 Facebook</a>
+<a href="#">📞 72982725</a>
+</div>
+
+</div>
+</div>
+
+
+<a href="#" class="carrito-flotante" onclick="toggleCart()">🛒</a>
+   
+</header>
+
+<div class="products">
+
+<div class="product">
+<img src="imagenes/imagen-cadena.jpg"onclick="verImagen(this)">
+<h3>Kit de transmicion</h3>
+<p> Cg 15T 41T</p>
+<p>Bs 180</p>
+<button onclick="addCart('Kit de transmicion',180)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/filtro-de-gasolina-garnde.jpg"onclick="verImagen(this)">
+<h3>Filtro De Gasolina</h3>
+<p> Filtro de Gasolina universal Grande</p>
+<p>Bs 7</p>
+<button onclick="addCart('Filtro de gasolina grande',7)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/filtro-de-gaolina-pequeño.jpg"onclick="verImagen(this)">
+<h3>Filtro De Gasolina</h3>
+<p> Filtro de Gasolina universal Pequeño</p>
+<p>Bs 5</p>
+<button onclick="addCart('Filtro de gasolina pequeño',5)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/capuchon-de-bujia-cg,xr-150.jpg"onclick="verImagen(this)">
+<h3>Capuchon De Bujia</h3>
+<p> Capuchon de bujia honda cg,xr150</p>
+<p>Bs 40</p>
+<button onclick="addCart('capuchon NGK honda cg,xr150',40)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/capuchon-universal.jpg"onclick="verImagen(this)">
+<h3>Capuchon De Bujia</h3>
+<p> Capuchon de bujia universal chino</p>
+<p>Bs 35</p>
+<button onclick="addCart('capuchon universal chino',35)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/bujia-honda-cg 150-hero-eco.jpg"onclick="verImagen(this)">
+<h3>Bujia NGK </h3>
+<p>Bujia NGK honda cg,eco  CPR8EA-9 </p>
+<p>Bs 35</p>
+<button onclick="addCart('bujia NGK honda cg CPR8EA-9',35)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/bujia-para-moto china-cg.jpg"onclick="verImagen(this)">
+<h3>Bujia NGK </h3>
+<p>Bujia NGK China cg  CPR8EA-9 </p>
+<p>Bs 30</p>
+<button onclick="addCart('bujia cg china CPR8EA-9',30)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/bujia-bizz.jpg"onclick="verImagen(this)">
+<h3>Bujia NGK </h3>
+<p>Bujia NGK bizz CR8E </p>
+<p>Bs 30</p>
+<button onclick="addCart('Bujia NGK bizz CR8E',30)">Agregar al carrito</button>
+</div>
+
+
+<div class="product">
+<img src="imagenes/bujia-cg-china.jpg"onclick="verImagen(this)">
+<h3>Bujia NGK </h3>
+<p>Bujia NGK Cg china D8EA </p>
+<p>Bs 30</p>
+<button onclick="addCart('bujia NGK cg china D8EA',30)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/rodamiento-6302.jpg"onclick="verImagen(this)">
+<h3>Rodamiento De Aro</h3>
+<p> Rodamiento de aro 6302 koyo</p>
+<p>Bs 20</p>
+<button onclick="addCart('Rodamiento de aro 6302 koyo',20)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/rodamiento-6202-aro.jpg"onclick="verImagen(this)">
+<h3>Rodamiento De Aro</h3>
+<p> Rodamiento de aro 6202 koyo</p>
+<p>Bs 20</p>
+<button onclick="addCart('Rodamiento de aro 6202 koyo',20)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/rodamiento-6203.jpg"onclick="verImagen(this)">
+<h3>Rodamiento De Aro</h3>
+<p> Rodamiento de aro 6203 koyo</p>
+<p>Bs 20</p>
+<button onclick="addCart('Rodamiento de aro 6203 koyo',20)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/rodamiento-direccion-honda-cg-titan-150.jpg"onclick="verImagen(this)">
+<h3>Rodamiento De Direccion</h3>
+<p> Rodamiento de direccion honda cg 150</p>
+<p>Bs 90</p>
+<button onclick="addCart('Rodamiento de direccion honda cg 125/150/160',90)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/rodamiento-cigueñal-honda-cg-titan-150.jpg"onclick="verImagen(this)">
+<h3>Rodamiento De Motor</h3>
+<p> Rodamiento de Cigueñal Honda Cg,titan 30x58x17 Br.</p>
+<p>Bs 110</p>
+<button onclick="addCart('Rodamiento de motor honda cg titan 30x58x17 Br.',110)">Agregar al carrito</button>
+</div>
+
+
+<div class="product">
+<img src="imagenes/pastilla-motochina.jpg"onclick="verImagen(this)">
+<h3>Juego de pastilla de freno</h3>
+<p> Pastilla de freno para moto china rusi</p>
+<p>Bs 25</p>
+<button onclick="addCart('Juego de pastilla de freno',25)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/pastilla-de-honda-cg150.jpg"onclick="verImagen(this)">
+<h3>Juego de pastilla de freno</h3>
+<p> Pastilla de freno para Cg Honda titan 150</p>
+<p>Bs 60</p>
+<button onclick="addCart('Juego de pastilla de freno cg150 brasil',60)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/brozchina.jpg"onclick="verImagen(this)">
+<h3>Juego de pastilla de freno</h3>
+<p> Pastilla de freno para moto china brozz</p>
+<p>Bs 30</p>
+<button onclick="addCart('Juego de pastilla de freno brozz',30)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/pastilla-tekken.jpg"onclick="verImagen(this)">
+<h3>Juego de pastilla de freno</h3>
+<p> Pastilla de freno para Tekken china</p>
+<p>Bs 35</p>
+<button onclick="addCart('Juego de pastilla de freno tekeken',35)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/cadena-china.jpg"onclick="verImagen(this)">
+<h3>Kit de transmicion china 150/200</h3>
+<p> Cg China 15T 41T</p>
+<p>Bs 130</p>
+<button onclick="addCart('Kit de transmicion china',130)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/rifel.jpg"onclick="verImagen(this)">
+<h3>Kit de transmicion Riffel B.</h3>
+<p>Honda Cg Titan 150 Brasil</p>
+<p>Bs 280</p>
+<button onclick="addCart('Kit de transmicion',280)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/transmicion-honda-tornado.jpg"onclick="verImagen(this)">
+<h3>Kit de transmicion Riffel B.</h3>
+<p>Honda Tornado Brasil</p>
+<p>Bs 350</p>
+<button onclick="addCart('Kit de transmicion H. tornado',350)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/transmicion-honda-twuister-125.jpg"onclick="verImagen(this)">
+<h3>Kit de transmicion Riffel B.</h3>
+<p>Honda Twuister 125 Brasil</p>
+<p>Bs 280</p>
+<button onclick="addCart('Kit de transmicion honda twuister 125',280)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/transmicion-honda-wave110.jpg"onclick="verImagen(this)">
+<h3>Kit de transmicion Riffel B.</h3>
+<p>Honda Wave 110 Brasil</p>
+<p>Bs 180</p>
+<button onclick="addCart('imagenes/Kit de transmicion honda wave',180)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/transmicion-cb1.jpg"onclick="verImagen(this)">
+<h3>Kit de transmicion Riffel B.</h3>
+<p>Honda Cb1 Brasil</p>
+<p>Bs 240</p>
+<button onclick="addCart('Kit de transmicion honda cb1',240)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/juego-de-empaque-150-honda-cg-titan.jpg"onclick="verImagen(this)">
+<h3>Empaque completo Br.</h3>
+<p>Honda 150cc Cg,Xr</p>
+<p>Bs 120</p>
+<button onclick="addCart('Empaque completo Honda cg,xr150',120)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/empaque-honda-wave-br.jpg"onclick="verImagen(this)">
+<h3>Empaque completo Br.</h3>
+<p>Honda Wave </p>
+<p>Bs 100</p>
+<button onclick="addCart('Empaque completo Honda wave',100)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/empaque-de-honda-xl200.jpg"onclick="verImagen(this)">
+<h3>Empaque completo Br.</h3>
+<p>Honda 200cc Xl,Xr,Nx </p>
+<p>Bs 140</p>
+<button onclick="addCart('Empaque completo Honda Xl200',140)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/empaque-honda-navi-br.jpg"onclick="verImagen(this)">
+<h3>Empaque completo Br.</h3>
+<p>Honda Navi </p>
+<p>Bs 100</p>
+<button onclick="addCart('Empaque completo Honda Navi 110',100)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/empaque-cb1-twister125.jpg"onclick="verImagen(this)">
+<h3>Empaque completo Br.</h3>
+<p>Honda 125cc Cb1,Twister</p>
+<p>Bs 100</p>
+<button onclick="addCart('Empaque completo Honda 125 cb1,twister',100)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/empaque-chino-150cc.jpg"onclick="verImagen(this)">
+<h3>Empaque completo Ch.</h3>
+<p>Cg,Cgl 150cc varilla</p>
+<p>Bs 50</p>
+<button onclick="addCart('Empaque completo Cg 150 varilla',50)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/empaque-chino-200cc-varilla.jpg" onclick="verImagen(this)">
+<h3>Empaque completo Ch.</h3>
+<p>Cg 200cc varilla</p>
+<p>Bs 50</p>
+<button onclick="addCart('Empaque completo Cg 200cc varilla',50)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/empaque-varilla-250cc.jpg"onclick="verImagen(this)">
+<h3>Empaque completo Ch.</h3>
+<p>Cg 250cc varilla</p>
+<p>Bs 50</p>
+<button onclick="addCart('Empaque completo cg 250cc varilla',50)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/kit-cilindro150.jpg"onclick="verImagen(this)">
+<h3>Kit Cilindro Honda 150cc</h3>
+<p>Kit cilindro completo 150cc cadenilla Brasil</p>
+<p>Bs 680</p>
+<button onclick="addCart('Kit Cilindro 150cc',680)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/kit-mejoradop-150-a-190.jpg"onclick="verImagen(this)">
+<h3>Kit Cilindro Honda 150cc a 190cc</h3>
+<p>Kit cilindro completo 150cc a 190cc cadenilla Brasil</p>
+<p>Bs 850</p>
+<button onclick="addCart('Kit Cilindro 150cc a 190cc',850)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/clindro-chino.jpg"onclick="verImagen(this)">
+<h3>Kit Cilindro Chino 150cc</h3>
+<p>Kit CIlindro completo moto china varillero</p>
+<p>Bs 250</p>
+<button onclick="addCart('Kit Cilindro chino 150cc',250)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/moto-vizz.jpg"onclick="verImagen(this)">
+<h3>Kit Cilindro bizz 125cc</h3>
+<p>Kit Cilindro completo bizz china</p>
+<p>Bs 200</p>
+<button onclick="addCart('Kit Cilindro bizz 125cc',200)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/viela-china.jpg"onclick="verImagen(this)">
+<h3>Viela china 200cc</h3>
+<p>Kit repacion de viela moto china 200cc</p>
+<p>Bs 70</p>
+<button onclick="addCart('Viela china 200cc',70)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/viela-china-150.jpg"onclick="verImagen(this)">
+<h3>Viela china 150cc</h3>
+<p>Kit reparacion de viela moto china 150cc</p>
+<p>Bs 70</p>
+<button onclick="addCart('Viela china 150cc',70)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/cigueñal-chino-150cc.jpg"onclick="verImagen(this)">
+<h3>Cigueñal Completo Ch.</h3>
+<p>Cigueñal Varillero 150cc</p>
+<p>Bs 250</p>
+<button onclick="addCart('Cigueñal varillero chino 150cc',250)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/cigueñal200cc.jpg"onclick="verImagen(this)">
+<h3>Cigueñal Completo Ch.</h3>
+<p>Cigueñal Varillero 200cc</p>
+<p>Bs 270</p>
+<button onclick="addCart('Cigueñal varillero 200cc',270)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/cigueñal250cc.jpg"onclick="verImagen(this)">
+<h3>Cigueñal Completo Ch.</h3>
+<p>Cigueñal Varillero 250cc</p>
+<p>Bs 350</p>
+<button onclick="addCart('Cigueñal varillero 250cc',350)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/cigueñal-honda-cg150.jpg"onclick="verImagen(this)">
+<h3>Cigueñal Cpmpleto 150cc Br.</h3>
+<p>Cigueñal Honda Cg,Xr Hero eco 150cc</p>
+<p>Bs 700</p>
+<button onclick="addCart('Cigueñal completo honda cg,xr hero eco 150cc',700)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/kit-piston+25.jpg"onclick="verImagen(this)">
+<h3>Kit Piston 150cc +25</h3>
+<p>Kit reparacion de cilindro honda Cg,Xr 150cc +25</p>
+<p>Bs 150</p>
+<button onclick="addCart('Kit Piston 150cc +25',150)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/kit-viela.jpg"onclick="verImagen(this)">
+<h3>Viela Honda 150cc</h3>
+<p>Kit reparacion de viela 150cc Cg,Xr Brasil</p>
+<p>Bs 350</p>
+<button onclick="addCart('Viela',350)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/shell1.jpg"onclick="verImagen(this)">
+<h3>Aceite Shell 15w50</h3>
+<p>Bs 70</p>
+<button onclick="addCart('Aceite Shell 15w50',70)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/repsol1.jpg"onclick="verImagen(this)">
+<h3>Aceite Repsol 15w50</h3>
+<p>Bs 80</p>
+<button onclick="addCart('Aceite Repsol 15w50',80)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/aceite-motul.jpg"onclick="verImagen(this)">
+<h3>Aceite Motul 5100</h3>
+<p>Bs 120</p>
+<button onclick="addCart('Aceite Motul 5100',120)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/5000.jpg"onclick="verImagen(this)">
+<h3>Aceite Motul 5000</h3>
+<p>Bs 100</p>
+<button onclick="addCart('Aceite Motul 5000',100)">Agregar al carrito</button>
+</div>
+
+<div class="product">
+<img src="imagenes/7100.jpg"onclick="verImagen(this)">
+<h3>Aceite Motul 7100</h3>
+<p>Bs 200</p>
+<button onclick="addCart('Aceite Motul 7100',200)">Agregar al carrito</button>
+</div>
+
+</div>
+
+<div id="carrito">
+
+<h2>🛒 Carrito</h2>
+
+<div id="items"></div>
+
+<hr>
+
+<p class="total">Total: Bs<span id="total">0</span></p>
+
+<button class="cart-btn" onclick="enviarWhatsApp()">Enviar pedido</button>
+<button class="cart-btn" onclick="toggleCart()">Salir</button>
+
+
+
+
+</div>
+
+<script>
+   function toggleMenu(id){
+let menu = document.getElementById(id);
+
+if(menu.style.display === "block"){
+menu.style.display = "none";
+}else{
+menu.style.display = "block";
+}
+}
+function abrirMenu(){
+let menu = document.getElementById("menuLateral");
+
+if(menu.style.right === "0px"){
+menu.style.right = "-250px";
+}else{
+menu.style.right = "0px";
+}
+}
+
+document.addEventListener("click", function(event){
+let menu = document.getElementById("menuLateral");
+let boton = document.querySelector(".btn-menu");
+
+if(!menu.contains(event.target) && !boton.contains(event.target)){
+menu.style.right = "-250px";
+}
+});
+    function verImagen(img){
+
+document.getElementById("visorImagen").style.display="flex";
+document.getElementById("imagenGrande").src = img.src;
+
+}
+
+function cerrarImagen(){
+
+document.getElementById("visorImagen").style.display="none";
+
+}
+    
+    function enviarWhatsApp(){
+
+let mensaje = "🛒 Pedido TITAN MOTORS:%0A%0A";
+
+cart.forEach(function(p){
+mensaje += p.nombre + " x" + p.cantidad + " - Bs " + (p.precio*p.cantidad) + "%0A";
+});
+
+let total = 0;
+
+cart.forEach(function(p){
+total += p.precio * p.cantidad;
+});
+
+mensaje += "%0ATotal: Bs " + total;
+
+let telefono = "59172982725"; // tu número de WhatsApp
+
+let url = "https://wa.me/" + telefono + "?text=" + mensaje;
+
+window.open(url,"_blank");
+
+}
+    const buscador = document.querySelector('input[type="search"]');
+
+buscador.addEventListener("keyup", function(){
+
+let texto = buscador.value.toLowerCase();
+let productos = document.querySelectorAll(".product");
+
+productos.forEach(function(producto){
+
+let nombre = producto.textContent.toLowerCase();
+
+if(nombre.includes(texto)){
+producto.style.display="block"
+}else{
+producto.style.display="none"
+}
+
+})
+
+});
+
+let cart=[]
+
+function addCart(nombre,precio){
+
+let prod=cart.find(p=>p.nombre===nombre)
+
+if(prod){
+prod.cantidad++
+}else{
+cart.push({nombre:nombre,precio:precio,cantidad:1})
+}
+
+renderCart()
+
+}
+
+function renderCart(){
+
+let items=document.getElementById("items")
+items.innerHTML=""
+
+let total=0
+
+cart.forEach((p,i)=>{
+
+total+=p.precio*p.cantidad
+
+items.innerHTML+=`
+<div class="cart-item">
+${p.nombre} x${p.cantidad}
+<button onclick="remove(${i})">X</button>
+</div>
+`
+
+})
+
+document.getElementById("total").textContent=total
+
+}
+
+function remove(i){
+
+cart.splice(i,1)
+renderCart()
+
+}
+
+function vaciar(){
+
+cart=[]
+renderCart()
+
+}
+
+function toggleCart(){
+
+let cartDiv=document.getElementById("carrito")
+
+if(cartDiv.style.display==="block"){
+cartDiv.style.display="none"
+}else{
+cartDiv.style.display="block"
+}
+
+}
+
+</script>
+
+</body>
